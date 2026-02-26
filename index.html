@@ -40,6 +40,29 @@ header p { opacity: 0.8; font-size: 14px; }
 .info-card.old-card { border-right: 4px solid #c0792a; }
 .info-card.new-card { border-right: 4px solid #1a6baa; }
 
+/* Policy detail cards */
+.policy-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 16px 0; }
+.policy-card { background: #fff; border-radius: 12px; padding: 18px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.policy-card.old { border-top: 4px solid #c0792a; }
+.policy-card.new { border-top: 4px solid #1a6baa; }
+.policy-card.cancelled { opacity: 0.7; }
+.policy-card h3 { font-size: 16px; margin-bottom: 4px; }
+.policy-card .policy-num { font-size: 13px; color: #888; margin-bottom: 10px; }
+.policy-card .policy-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+.policy-card .policy-row:last-child { border-bottom: none; }
+.policy-card .policy-row .pol-label { color: #666; }
+.policy-card .policy-row .pol-value { font-weight: 600; }
+.policy-card .coverages { margin-top: 10px; }
+.policy-card .coverages .cov-title { font-size: 12px; color: #888; margin-bottom: 4px; }
+.policy-card .coverages ul { list-style: none; padding: 0; }
+.policy-card .coverages li { font-size: 13px; padding: 2px 0; padding-right: 14px; position: relative; }
+.policy-card .coverages li::before { content: "\2713"; position: absolute; right: 0; color: #28a745; font-size: 12px; }
+.badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 600; margin-right: 6px; vertical-align: middle; }
+.badge-cancelled { background: #ffeaea; color: #dc3545; }
+.badge-expiring { background: #fff3cd; color: #856404; }
+.badge-active { background: #d4edda; color: #155724; }
+.badge-new { background: #cce5ff; color: #004085; }
+
 /* Tables */
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 16px 0; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
 table { width: 100%; border-collapse: collapse; font-size: 14px; background: #fff; }
@@ -93,6 +116,7 @@ footer { text-align: center; padding: 24px; color: #999; font-size: 12px; border
   th, td { padding: 8px 10px; }
   header h1 { font-size: 18px; }
   .info-grid { grid-template-columns: 1fr; }
+  .policy-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -114,7 +138,7 @@ footer { text-align: center; padding: 24px; color: #999; font-size: 12px; border
 
 <header>
   <h1>השוואת ביטוח בריאות — משפחת שלם</h1>
-  <p>5 פוליסות ישנות (3 חברות) מול 2 פוליסות AIG חדשות | מחירים שנתיים | פברואר 2026</p>
+  <p>5 פוליסות ישנות (3 חברות) מול 2 פוליסות AIG חדשות | פברואר 2026</p>
 </header>
 
 <div class="container">
@@ -127,13 +151,13 @@ footer { text-align: center; padding: 24px; color: #999; font-size: 12px; border
   <div class="info-grid">
     <div class="info-card old-card">
       <div class="label">שיטה ישנה — 5 פוליסות, 3 חברות</div>
-      <div class="value">~1,009 ₪/חודש</div>
-      <div class="detail">~12,111 ₪/שנה | ביטוח ישיר + הפניקס + מגדל</div>
+      <div class="value">~1,009 &#8362;/חודש</div>
+      <div class="detail">~12,111 &#8362;/שנה | ביטוח ישיר + הפניקס + מגדל</div>
     </div>
     <div class="info-card new-card">
       <div class="label">AIG חדש — 2 פוליסות</div>
-      <div class="value">910 ₪/חודש (רשימה)</div>
-      <div class="detail">811 ₪ משפחה + 99.25 ₪ אמתי | הנחות נעולות עד 01/2036</div>
+      <div class="value">910 &#8362;/חודש (רשימה)</div>
+      <div class="detail">811 &#8362; משפחה + 99.25 &#8362; אמתי | הנחות נעולות עד 01/2036</div>
     </div>
     <div class="info-card">
       <div class="label">מבוטחים</div>
@@ -142,68 +166,203 @@ footer { text-align: center; padding: 24px; color: #999; font-size: 12px; border
     </div>
     <div class="info-card">
       <div class="label">שדרוג עיקרי</div>
-      <div class="value">2 → 10 כיסויים</div>
+      <div class="value">2 &#8594; 10 כיסויים</div>
       <div class="detail">אמתי ואיתמר עברו מ-2 כיסויים בהפניקס ל-10 כיסויים מלאים</div>
     </div>
   </div>
 </div>
 
 <!-- ======================== -->
-<!-- 1. Who is covered where  -->
+<!-- 1. Previous policies      -->
 <!-- ======================== -->
-<div class="divider"><span>מי מבוטח/ת איפה?</span></div>
+<div class="divider"><span>שיטה ישנה — מה היה</span></div>
 
 <div class="section">
-  <h2>1. מפת כיסוי לפי מבוטח</h2>
-  <p class="section-sub">6 בני משפחה, 5 פוליסות ישנות מול 2 פוליסות AIG</p>
+  <h2>1. פירוט הפוליסות הישנות</h2>
+  <p class="section-sub">5 פוליסות ב-3 חברות שונות, סה"כ ~12,111 &#8362;/שנה</p>
 
-  <div class="table-wrap">
-    <table class="matrix">
-      <thead><tr>
-        <th>מבוטח/ת</th>
-        <th style="background:#c0792a;">ביטוח ישיר<br>~60₪/חודש</th>
-        <th style="background:#c0792a;">הפניקס<br>547₪/חודש</th>
-        <th style="background:#c0792a;">מגדל<br>~402₪/חודש</th>
-        <th style="background:#1a6baa;">AIG משפחה<br>811₪/חודש</th>
-        <th style="background:#1a6baa;">AIG אמתי<br>99.25₪/חודש</th>
-      </tr></thead>
-      <tbody>
-        <tr><td class="name-cell">צבי</td>
-          <td class="has">2 פוליסות</td><td class="has">7 כיסויים</td><td class="has">דואגים למחר</td>
-          <td class="has">9 כיסויים</td><td class="hasnt">—</td></tr>
-        <tr><td class="name-cell">מיכל</td>
-          <td class="has">2 פוליסות</td><td class="hasnt">—</td><td class="has">תרופות/השתלות/ייעוץ</td>
-          <td class="has">10 כיסויים (+תוספת חיתום)</td><td class="hasnt">—</td></tr>
-        <tr><td class="name-cell">נעמי</td>
-          <td class="hasnt">—</td><td class="has">12 כיסויים</td><td class="hasnt">—</td>
-          <td class="has">10 כיסויים</td><td class="hasnt">—</td></tr>
-        <tr><td class="name-cell">יערה</td>
-          <td class="hasnt">—</td><td class="has">14 כיסויים</td><td class="hasnt">—</td>
-          <td class="has">10 כיסויים</td><td class="hasnt">—</td></tr>
-        <tr class="warn-row"><td class="name-cell">אמתי</td>
-          <td class="hasnt">—</td><td class="partial">2 כיסויים בלבד!</td><td class="hasnt">—</td>
-          <td class="hasnt">—</td><td class="has">10 כיסויים</td></tr>
-        <tr class="warn-row"><td class="name-cell">איתמר</td>
-          <td class="hasnt">—</td><td class="partial">2 כיסויים בלבד!</td><td class="hasnt">—</td>
-          <td class="has">10 כיסויים</td><td class="hasnt">—</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <div class="policy-grid">
 
-  <div class="coverage-note">
-    <strong>שדרוג משמעותי ב-AIG:</strong>
-    אמתי ואיתמר עברו מ-2 כיסויים בהפניקס ל-10 כיסויים מלאים.<br>
-    מיכל לא הייתה מבוטחת כלל בהפניקס — עכשיו מקבלת 10 כיסויים ב-AIG (עם תוספת חיתום של 50% על ניתוחים/השתלות).
+    <div class="policy-card old">
+      <h3>ביטוח ישיר <span class="badge badge-cancelled">בוטל 02/2026</span></h3>
+      <div class="policy-num">פוליסה 396109800</div>
+      <div class="policy-row"><span class="pol-label">סוג</span><span class="pol-value">בריאות</span></div>
+      <div class="policy-row"><span class="pol-label">מבוטחים</span><span class="pol-value">צבי + מיכל</span></div>
+      <div class="policy-row"><span class="pol-label">תקופה</span><span class="pol-value">08/2008 — 07/2071</span></div>
+      <div class="policy-row"><span class="pol-label">פרמיה</span><span class="pol-value">~29.4 &#8362;/חודש (353 &#8362;/שנה)</span></div>
+      <div class="coverages">
+        <div class="cov-title">כיסויים:</div>
+        <ul><li>ביטוח בריאות בסיסי</li></ul>
+      </div>
+    </div>
+
+    <div class="policy-card old">
+      <h3>ביטוח ישיר <span class="badge badge-cancelled">בוטל 02/2026</span></h3>
+      <div class="policy-num">פוליסה 447494400</div>
+      <div class="policy-row"><span class="pol-label">סוג</span><span class="pol-value">בריאות + חיים</span></div>
+      <div class="policy-row"><span class="pol-label">מבוטחים</span><span class="pol-value">צבי + מיכל</span></div>
+      <div class="policy-row"><span class="pol-label">תקופה</span><span class="pol-value">10/2009 — 09/2071</span></div>
+      <div class="policy-row"><span class="pol-label">פרמיה</span><span class="pol-value">~30.87 &#8362;/חודש (370 &#8362;/שנה)</span></div>
+      <div class="coverages">
+        <div class="cov-title">כיסויים:</div>
+        <ul><li>ביטוח בריאות + רכיב חיים</li></ul>
+      </div>
+    </div>
+
+    <div class="policy-card old">
+      <h3>הפניקס <span class="badge badge-cancelled">בוטל 02/2026</span></h3>
+      <div class="policy-num">פוליסה 2848211088</div>
+      <div class="policy-row"><span class="pol-label">סוג</span><span class="pol-value">בריאות פרט</span></div>
+      <div class="policy-row"><span class="pol-label">מבוטחים</span><span class="pol-value">צבי, נעמי, יערה, אמתי, איתמר</span></div>
+      <div class="policy-row"><span class="pol-label">חידוש</span><span class="pol-value">כל שנתיים (הבא: 06/2026)</span></div>
+      <div class="policy-row"><span class="pol-label">סוכן</span><span class="pol-value">דוידוב סוכנות לביטוח</span></div>
+      <div class="policy-row"><span class="pol-label">פרמיה</span><span class="pol-value">547 &#8362;/חודש (6,564 &#8362;/שנה)</span></div>
+      <div class="coverages">
+        <div class="cov-title">כיסויים (צבי — 7 נספחים):</div>
+        <ul>
+          <li>תנאים כלליים לבריאות 2023 (נספח 7400)</li>
+          <li>מרפא — מחלות קשות (נספח 5282)</li>
+          <li>ייעוץ ובדיקות אמבולטורי (נספח 6782)</li>
+          <li>משלים שב"ן — ניתוחים ללא ה.ע (נספח 6783)</li>
+          <li>ניתוחים בחו"ל (נספח 6785)</li>
+          <li>תרופות מחוץ לסל (נספח 6787)</li>
+          <li>השתלות בחו"ל (נספח 6788)</li>
+        </ul>
+      </div>
+      <div class="coverage-note" style="margin-top:10px;padding:8px 12px;font-size:12px;">
+        <strong style="color:#dc3545;">בעיה:</strong>
+        אמתי ואיתמר — רק 2 כיסויים! | מיכל לא מבוטחת כלל בפוליסה זו
+      </div>
+    </div>
+
+    <div class="policy-card old">
+      <h3>מגדל — צבי <span class="badge badge-cancelled">בוטל 02/2026</span></h3>
+      <div class="policy-num">פוליסה 15054352</div>
+      <div class="policy-row"><span class="pol-label">סוג</span><span class="pol-value">סיעוד — דואגים למחר-2</span></div>
+      <div class="policy-row"><span class="pol-label">מבוטח</span><span class="pol-value">צבי בלבד</span></div>
+      <div class="policy-row"><span class="pol-label">תקופה</span><span class="pol-value">12/2004 — כל החיים</span></div>
+      <div class="policy-row"><span class="pol-label">פרמיה</span><span class="pol-value">~320 &#8362;/חודש (3,840 &#8362;/שנה)</span></div>
+      <div class="coverages">
+        <div class="cov-title">כיסויים:</div>
+        <ul>
+          <li>דואגים למחר-2 (2 חד' המתנה) &times; 2</li>
+          <li>דואגים למחר חדש מסולק</li>
+          <li>שלוה שחרור (3 חד' המתנה)</li>
+        </ul>
+      </div>
+      <div class="coverage-note" style="margin-top:10px;padding:8px 12px;font-size:12px;background:#fff3cd;border-color:#ffc107;">
+        <strong style="color:#856404;">שים לב:</strong>
+        ביטוח סיעודי — אין מקבילה ב-AIG. כיסוי זה הולך לאיבוד.
+      </div>
+    </div>
+
+    <div class="policy-card old">
+      <h3>מגדל — מיכל <span class="badge badge-expiring">פג 06/2026</span></h3>
+      <div class="policy-num">פוליסה 22472810</div>
+      <div class="policy-row"><span class="pol-label">סוג</span><span class="pol-value">בריאות</span></div>
+      <div class="policy-row"><span class="pol-label">מבוטחת</span><span class="pol-value">מיכל בלבד</span></div>
+      <div class="policy-row"><span class="pol-label">תקופה</span><span class="pol-value">12/2022 — 06/2026</span></div>
+      <div class="policy-row"><span class="pol-label">פרמיה</span><span class="pol-value">~82 &#8362;/חודש (984 &#8362;/שנה)</span></div>
+      <div class="coverages">
+        <div class="cov-title">כיסויים (אומת מפורטל מגדל 26/02/2026):</div>
+        <ul>
+          <li>תרופות שלא בסל ובדיקות גנטיות (עד 2,351,950 &#8362;)</li>
+          <li>השתלות בארץ ובחו"ל (ללא תקרה עם נותן שירות בהסכם)</li>
+          <li>ייעוץ ובדיקות (4 התייעצויות מומחה, בדיקות אבחנתיות, תור מהיר)</li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <!-- ======================== -->
-<!-- 2. Coverage comparison    -->
+<!-- 2. New AIG policies       -->
+<!-- ======================== -->
+<div class="divider"><span>שיטה חדשה — AIG</span></div>
+
+<div class="section">
+  <h2>2. פירוט הפוליסות החדשות</h2>
+  <p class="section-sub">2 פוליסות AIG, הנחות נעולות עד 01/2036, סה"כ 910 &#8362;/חודש (רשימה)</p>
+
+  <div class="policy-grid">
+
+    <div class="policy-card new">
+      <h3>AIG — בריאות משפחה <span class="badge badge-new">חדש</span></h3>
+      <div class="policy-num">פוליסה 730027730526</div>
+      <div class="policy-row"><span class="pol-label">בעל הפוליסה</span><span class="pol-value">צבי שלם</span></div>
+      <div class="policy-row"><span class="pol-label">מבוטחים</span><span class="pol-value">צבי, מיכל, נעמי, יערה, איתמר</span></div>
+      <div class="policy-row"><span class="pol-label">פרמיה רשימה</span><span class="pol-value">811 &#8362;/חודש (9,732 &#8362;/שנה)</span></div>
+      <div class="policy-row"><span class="pol-label">הנחת פיני</span><span class="pol-value">698 &#8362;/חודש (8,376 &#8362;/שנה)</span></div>
+      <div class="policy-row"><span class="pol-label">הנחות מובנות</span><span class="pol-value">25-30% נעולות עד 01/2036</span></div>
+      <div class="coverages">
+        <div class="cov-title">פירוט לפי מבוטח (רשימה):</div>
+        <ul>
+          <li>צבי: 240.18 &#8362;/חודש (9 כיסויים — MASHLIM)</li>
+          <li>מיכל: 332.25 &#8362;/חודש (+50% תוספת חיתום על ניתוחים/השתלות)</li>
+          <li>נעמי: 79.59 &#8362;/חודש</li>
+          <li>יערה: 79.59 &#8362;/חודש</li>
+          <li>איתמר: 79.59 &#8362;/חודש</li>
+        </ul>
+      </div>
+      <div class="coverages" style="margin-top:8px;">
+        <div class="cov-title">כיסויים (10 לכל מבוטח):</div>
+        <ul>
+          <li>משלים ניתוחים ראשון (MASHLIM כיסוי 1)</li>
+          <li>השתלות וטיפולים מיוחדים בחו"ל (כיסוי 20)</li>
+          <li>תרופות מיוחדות מחוץ לסל (כיסוי 22)</li>
+          <li>ניתוחים בחו"ל (כיסוי 23)</li>
+          <li>ייעוץ, בדיקות ואבחון מהיר (כיסוי 25)</li>
+          <li>סל טיפולים רפואיים (כיסוי 26)</li>
+          <li>Extra Care — מחלות קשות, סכום חד פעמי (כיסוי 28)</li>
+          <li>Extra Care — תגמולים חודשיים 2,000 &#8362;&times;12 (כיסוי 29)</li>
+          <li>טכנולוגיות מתקדמות ואביזרים (כיסוי 32)</li>
+          <li>ביטוח בריאות בסיסי (כיסוי 20 BASIC)</li>
+        </ul>
+      </div>
+      <div class="coverage-note" style="margin-top:10px;padding:8px 12px;font-size:12px;background:#fff3cd;border-color:#ffc107;">
+        <strong style="color:#856404;">חריגות מיכל:</strong>
+        טיפולים להורדת משקל, תרופות ADHD — מוחרגים | Extra Care ללא חריגות
+      </div>
+    </div>
+
+    <div class="policy-card new">
+      <h3>AIG — בריאות אמתי <span class="badge badge-new">חדש</span></h3>
+      <div class="policy-num">פוליסה 730027731426</div>
+      <div class="policy-row"><span class="pol-label">מבוטח</span><span class="pol-value">אמתי שלם (יליד 23/11/2006)</span></div>
+      <div class="policy-row"><span class="pol-label">פרמיה</span><span class="pol-value">99.25 &#8362;/חודש (1,191 &#8362;/שנה)</span></div>
+      <div class="policy-row"><span class="pol-label">הנחות מובנות</span><span class="pol-value">25-35% נעולות עד 01/2036</span></div>
+      <div class="coverages">
+        <div class="cov-title">כיסויים (10):</div>
+        <ul>
+          <li>שקל ניתוחים ראשון (SHEKEL כיסוי 10)</li>
+          <li>השתלות וטיפולים מיוחדים בחו"ל (כיסוי 20)</li>
+          <li>תרופות מיוחדות (כיסוי 22)</li>
+          <li>ניתוחים בחו"ל (כיסוי 23)</li>
+          <li>ייעוץ, בדיקות ואבחון (כיסוי 25)</li>
+          <li>סל טיפולים רפואיים (כיסוי 26)</li>
+          <li>Extra Care — סכום חד פעמי 150,000 &#8362; (כיסוי 28)</li>
+          <li>Extra Care — תגמולים 2,000 &#8362;&times;12 (כיסוי 29)</li>
+          <li>ליווי רפואי וטיפולים (כיסוי 31)</li>
+          <li>טכנולוגיות מתקדמות (כיסוי 32)</li>
+        </ul>
+      </div>
+      <div class="coverage-note" style="margin-top:10px;padding:8px 12px;font-size:12px;background:#fff3cd;border-color:#ffc107;">
+        <strong style="color:#856404;">חריגה:</strong>
+        כיסוי 22 (תרופות) מחריג אסתמה, הפרעות נשימה, אלרגיה נשימתית
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================== -->
+<!-- 3. Coverage comparison    -->
 <!-- ======================== -->
 <div class="divider"><span>השוואת כיסויים</span></div>
 
 <div class="section">
-  <h2>2. מה כלול בכל שיטה?</h2>
+  <h2>3. מה כלול בכל שיטה?</h2>
   <p class="section-sub">פירוט כיסויים — ישן מול AIG</p>
 
   <div class="table-wrap">
@@ -217,49 +376,94 @@ footer { text-align: center; padding: 24px; color: #999; font-size: 12px; border
       </tr></thead>
       <tbody>
         <tr><td class="name-cell">משלים שב"ן / ניתוחים</td>
-          <td class="hasnt">—</td><td class="has">נספח 6783</td><td class="hasnt">—</td><td class="has">כיסוי 1</td></tr>
+          <td class="hasnt">&#8212;</td><td class="has">נספח 6783</td><td class="hasnt">&#8212;</td><td class="has">כיסוי 1 / 10</td></tr>
         <tr><td class="name-cell">מחלות קשות</td>
-          <td class="hasnt">—</td><td class="has">נספח 5282</td><td class="hasnt">—</td><td class="has">Extra Care 28+29</td></tr>
+          <td class="hasnt">&#8212;</td><td class="has">נספח 5282</td><td class="hasnt">&#8212;</td><td class="has">Extra Care 28+29</td></tr>
         <tr><td class="name-cell">תרופות מחוץ לסל</td>
-          <td class="hasnt">—</td><td class="has">נספח 6787</td><td class="has">מיכל בלבד</td><td class="has">כיסוי 22</td></tr>
+          <td class="hasnt">&#8212;</td><td class="has">נספח 6787</td><td class="has">מיכל (עד 2.35M&#8362;)</td><td class="has">כיסוי 22</td></tr>
         <tr><td class="name-cell">ניתוחים בחו"ל</td>
-          <td class="hasnt">—</td><td class="has">נספח 6785</td><td class="hasnt">—</td><td class="has">כיסוי 23</td></tr>
+          <td class="hasnt">&#8212;</td><td class="has">נספח 6785</td><td class="hasnt">&#8212;</td><td class="has">כיסוי 23</td></tr>
         <tr><td class="name-cell">השתלות בחו"ל</td>
-          <td class="hasnt">—</td><td class="has">נספח 6788</td><td class="has">מיכל בלבד</td><td class="has">כיסוי 20</td></tr>
+          <td class="hasnt">&#8212;</td><td class="has">נספח 6788</td><td class="has">מיכל (ללא תקרה)</td><td class="has">כיסוי 20</td></tr>
         <tr><td class="name-cell">ייעוץ ובדיקות</td>
-          <td class="hasnt">—</td><td class="has">נספח 6782</td><td class="has">מיכל בלבד</td><td class="has">כיסוי 25</td></tr>
+          <td class="hasnt">&#8212;</td><td class="has">נספח 6782</td><td class="has">מיכל (4 התייעצויות)</td><td class="has">כיסוי 25</td></tr>
         <tr style="background:#eefef0;"><td class="name-cell">סל טיפולים <span class="new-tag">חדש</span></td>
-          <td class="hasnt">—</td><td class="hasnt">—</td><td class="hasnt">—</td><td class="has">כיסוי 26</td></tr>
+          <td class="hasnt">&#8212;</td><td class="hasnt">&#8212;</td><td class="hasnt">&#8212;</td><td class="has">כיסוי 26</td></tr>
         <tr style="background:#eefef0;"><td class="name-cell">טכנולוגיות מתקדמות <span class="new-tag">חדש</span></td>
-          <td class="hasnt">—</td><td class="hasnt">—</td><td class="hasnt">—</td><td class="has">כיסוי 32</td></tr>
+          <td class="hasnt">&#8212;</td><td class="hasnt">&#8212;</td><td class="hasnt">&#8212;</td><td class="has">כיסוי 32</td></tr>
+        <tr style="background:#eefef0;"><td class="name-cell">ליווי רפואי וטיפולים <span class="new-tag">חדש — אמתי</span></td>
+          <td class="hasnt">&#8212;</td><td class="hasnt">&#8212;</td><td class="hasnt">&#8212;</td><td class="has">כיסוי 31</td></tr>
         <tr><td class="name-cell">ביטוח בסיסי</td>
-          <td class="has">בסיסי</td><td class="hasnt">—</td><td class="hasnt">—</td><td class="has">כיסוי 20</td></tr>
-        <tr style="background:#ffeaea;"><td class="name-cell">סיעודי / דואגים למחר <span class="missing-tag">חסר ב-AIG</span></td>
-          <td class="hasnt">—</td><td class="hasnt">—</td><td class="has">צבי בלבד</td><td class="hasnt">—</td></tr>
+          <td class="has">בסיסי</td><td class="hasnt">&#8212;</td><td class="hasnt">&#8212;</td><td class="has">BASIC כיסוי 20</td></tr>
+        <tr style="background:#ffeaea;"><td class="name-cell">סיעוד / דואגים למחר <span class="missing-tag">חסר ב-AIG</span></td>
+          <td class="hasnt">&#8212;</td><td class="hasnt">&#8212;</td><td class="has">צבי — 15054352</td><td class="hasnt">&#8212;</td></tr>
       </tbody>
     </table>
   </div>
 
   <div class="coverage-note" style="background:#fff3cd; border-color:#ffc107;">
     <strong>מה חסר ב-AIG:</strong>
-    סיעודי / דואגים למחר (מגדל 15054352) — אין מקבילה ב-AIG. זה כיסוי נפרד שצבי מחזיק במגדל.<br>
+    סיעוד / דואגים למחר (מגדל 15054352, ~320 &#8362;/חודש) — אין מקבילה ב-AIG. כיסוי סיעודי הולך לאיבוד.<br>
     <strong>מה חדש ב-AIG:</strong>
-    סל טיפולים רפואיים (כיסוי 26) + טכנולוגיות מתקדמות (כיסוי 32) — לא היו קיימים בשום פוליסה ישנה.
+    סל טיפולים (כיסוי 26) + טכנולוגיות מתקדמות (כיסוי 32) + ליווי רפואי (כיסוי 31 לאמתי) — לא היו קיימים.
   </div>
 </div>
 
 <!-- ======================== -->
-<!-- 3. Main cost comparison   -->
+<!-- 4. Who is covered where  -->
+<!-- ======================== -->
+<div class="divider"><span>מי מבוטח/ת איפה?</span></div>
+
+<div class="section">
+  <h2>4. מפת כיסוי לפי מבוטח</h2>
+  <p class="section-sub">6 בני משפחה — 5 פוליסות ישנות מול 2 פוליסות AIG</p>
+
+  <div class="table-wrap">
+    <table class="matrix">
+      <thead><tr>
+        <th>מבוטח/ת</th>
+        <th style="background:#c0792a;">ביטוח ישיר<br>~60&#8362;/חודש</th>
+        <th style="background:#c0792a;">הפניקס<br>547&#8362;/חודש</th>
+        <th style="background:#c0792a;">מגדל<br>~402&#8362;/חודש</th>
+        <th style="background:#1a6baa;">AIG משפחה<br>811&#8362;/חודש</th>
+        <th style="background:#1a6baa;">AIG אמתי<br>99.25&#8362;/חודש</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="name-cell">צבי</td>
+          <td class="has">2 פוליסות</td><td class="has">7 כיסויים</td><td class="has">סיעוד (320&#8362;)</td>
+          <td class="has">9 כיסויים (240&#8362;)</td><td class="hasnt">&#8212;</td></tr>
+        <tr><td class="name-cell">מיכל</td>
+          <td class="has">2 פוליסות</td><td class="hasnt">&#8212;</td><td class="has">3 כיסויים (82&#8362;)</td>
+          <td class="has">10 כיסויים (332&#8362;)</td><td class="hasnt">&#8212;</td></tr>
+        <tr><td class="name-cell">נעמי</td>
+          <td class="hasnt">&#8212;</td><td class="has">12 כיסויים</td><td class="hasnt">&#8212;</td>
+          <td class="has">10 כיסויים (80&#8362;)</td><td class="hasnt">&#8212;</td></tr>
+        <tr><td class="name-cell">יערה</td>
+          <td class="hasnt">&#8212;</td><td class="has">14 כיסויים</td><td class="hasnt">&#8212;</td>
+          <td class="has">10 כיסויים (80&#8362;)</td><td class="hasnt">&#8212;</td></tr>
+        <tr class="warn-row"><td class="name-cell">אמתי</td>
+          <td class="hasnt">&#8212;</td><td class="partial">2 כיסויים בלבד!</td><td class="hasnt">&#8212;</td>
+          <td class="hasnt">&#8212;</td><td class="has">10 כיסויים (99&#8362;)</td></tr>
+        <tr class="warn-row"><td class="name-cell">איתמר</td>
+          <td class="hasnt">&#8212;</td><td class="partial">2 כיסויים בלבד!</td><td class="hasnt">&#8212;</td>
+          <td class="has">10 כיסויים (80&#8362;)</td><td class="hasnt">&#8212;</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ======================== -->
+<!-- 5. Main cost comparison   -->
 <!-- ======================== -->
 <div class="divider"><span>השוואת עלויות</span></div>
 
 <div class="section">
-  <h2>3. השוואת עלות שנתית — השורה התחתונה</h2>
-  <p class="section-sub">ישן (5 פוליסות = ₪12,111/שנה קבוע) מול AIG (2 פוליסות — משתנה לפי שנה)</p>
+  <h2>5. השוואת עלות שנתית — השורה התחתונה</h2>
+  <p class="section-sub">ישן (5 פוליסות = 12,111&#8362;/שנה קבוע) מול AIG (2 פוליסות — משתנה לפי שנה)</p>
 
   <div class="coverage-note">
     <strong>הערה חשובה:</strong>
-    לפוליסות הישנות אין טבלת מחירים עתידית — מוצגות לפי עלות נוכחית (₪12,111/שנה).<br>
+    לפוליסות הישנות אין טבלת מחירים עתידית — מוצגות לפי עלות נוכחית (12,111&#8362;/שנה).<br>
     עלות AIG מתוך טבלת הפרמיה העתידית שבפוליסה. <strong>הנחות נעולות עד 01/2036</strong> — אחרי זה קפיצה של ~48%.
   </div>
 
@@ -267,22 +471,22 @@ footer { text-align: center; padding: 24px; color: #999; font-size: 12px; border
 </div>
 
 <!-- ======================== -->
-<!-- 4. Full detail table      -->
+<!-- 6. Full detail table      -->
 <!-- ======================== -->
 <div class="section">
-  <h2>4. טבלה מפורטת — כל הנתונים</h2>
+  <h2>6. טבלה מפורטת — כל הנתונים</h2>
   <p class="section-sub">פירוט: ביטוח ישיר | הפניקס | מגדל | סה"כ ישן | AIG משפחה | AIG אמתי | סה"כ AIG | הפרש</p>
 
   <div class="table-wrap" id="full-table"></div>
 </div>
 
 <!-- ======================== -->
-<!-- 5. PDF links              -->
+<!-- 7. PDF links              -->
 <!-- ======================== -->
 <div class="divider"><span>מסמכי מקור</span></div>
 
 <div class="section">
-  <h2>5. מסמכי מקור (PDF)</h2>
+  <h2>7. מסמכי מקור (PDF)</h2>
   <ul class="pdf-list">
     <li><a href="pdfs/aig_health_730027730526.pdf" target="_blank">AIG — בריאות משפחה 730027730526 (צבי, מיכל, נעמי, יערה, איתמר)</a></li>
     <li><a href="pdfs/aig_health_730027731426_amtai.pdf" target="_blank">AIG — בריאות אמתי 730027731426</a></li>
@@ -316,13 +520,13 @@ document.getElementById('pw').addEventListener('keydown', function(e) {
 
 /* ===== DATA ===== */
 
-// Old health: constant annual cost (no year-by-year escalation data available)
-var YASHIR_ANNUAL = 723;   // ביטוח ישיר: 396109800 (~29.4/mo) + 447494400 (~30.87/mo) = ~60.27/mo
-var PHOENIX_ANNUAL = 6564;  // הפניקס 2848211088: 547/mo
-var MIGDAL_ANNUAL = 4824;   // מגדל: 15054352 (~320/mo) + 22472810 (~82/mo) = ~402/mo
+// Old health: constant annual cost
+var YASHIR_ANNUAL = 723;   // 396109800 (~29.4/mo) + 447494400 (~30.87/mo)
+var PHOENIX_ANNUAL = 6564;  // 2848211088: 547/mo
+var MIGDAL_ANNUAL = 4824;   // 15054352 (~320/mo) + 22472810 (~82/mo)
 var OLD_HEALTH_ANNUAL = YASHIR_ANNUAL + PHOENIX_ANNUAL + MIGDAL_ANNUAL; // 12,111
 
-// AIG family 730027730526 — annual premiums (includes built-in 25-30% discounts, locked until 01/2036)
+// AIG family 730027730526
 var aigFamily = {
   2026:9618, 2027:9556, 2028:10044, 2029:10965, 2030:12001,
   2031:12237, 2032:12561, 2033:12776, 2034:14518, 2035:15595,
@@ -333,7 +537,7 @@ var aigFamily = {
   2056:28920, 2057:29177, 2058:30101
 };
 
-// AIG Amtai 730027731426 — annual premiums (AFTER built-in discounts)
+// AIG Amtai 730027731426
 var aigAmtai = {
   2026:1186, 2027:1208, 2028:1635, 2029:1635, 2030:1644,
   2031:1646, 2032:1648, 2033:1654, 2034:1659, 2035:1663,
@@ -371,7 +575,7 @@ function buildTables() {
   buildFullTable();
 }
 
-/* ===== 3. Main cost comparison table ===== */
+/* ===== 5. Main cost comparison table ===== */
 function buildMainTable() {
   var years = getYears();
   var html = '<table>';
@@ -415,12 +619,11 @@ function buildMainTable() {
   document.getElementById('main-table').innerHTML = html;
 }
 
-/* ===== 4. Full detail table ===== */
+/* ===== 6. Full detail table ===== */
 function buildFullTable() {
   var years = getYears();
   var html = '<table>';
   html += '<thead>';
-  // Two-row header
   html += '<tr>';
   html += '<th rowspan="2">שנה</th>';
   html += '<th colspan="4" style="background:#c0792a;text-align:center;">שיטה ישנה</th>';
