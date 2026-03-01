@@ -109,6 +109,28 @@ tr.summary-row td { background: #1a1a2e !important; color: #fff; font-weight: 70
 /* Discount expiry row */
 tr.discount-expiry td { background: #ffeaea !important; font-weight: 600; }
 
+/* Bottom line section */
+.bl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 16px 0; }
+.bl-box { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+.bl-box h3 { font-size: 17px; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #eee; }
+.bl-box.price h3 { color: #0f3460; border-color: #0f3460; }
+.bl-box.coverage h3 { color: #28a745; border-color: #28a745; }
+.bl-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
+.bl-row:last-child { border-bottom: none; }
+.bl-row .bl-label { color: #555; }
+.bl-row .bl-val { font-weight: 600; }
+.bl-row.bl-total { background: #f8f9fa; border-radius: 6px; padding: 8px; margin-top: 6px; font-size: 15px; }
+.bl-row.bl-total .bl-val { font-size: 16px; }
+.bl-diff { text-align: center; padding: 14px; border-radius: 10px; margin-top: 12px; font-size: 15px; font-weight: 600; }
+.bl-diff.negative { background: #ffeaea; color: #dc3545; }
+.bl-diff.positive { background: #d4edda; color: #155724; }
+.cov-change { padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+.cov-change:last-child { border-bottom: none; }
+.cov-plus { color: #28a745; font-weight: 600; }
+.cov-minus { color: #dc3545; font-weight: 600; }
+.cov-same { color: #888; }
+@media (max-width: 700px) { .bl-grid { grid-template-columns: 1fr; } }
+
 footer { text-align: center; padding: 24px; color: #999; font-size: 12px; border-top: 1px solid #eee; margin-top: 40px; }
 
 @media (max-width: 600px) {
@@ -155,9 +177,14 @@ footer { text-align: center; padding: 24px; color: #999; font-size: 12px; border
       <div class="detail">ביטוח ישיר + הפניקס + מגדל | עלות קבועה</div>
     </div>
     <div class="info-card new-card">
-      <div class="label">חלופה 2 — 2 פוליסות AIG</div>
-      <div class="value">10,804 &#8362;/שנה (2026)</div>
-      <div class="detail">הנחות נעולות עד 01/2036 | עלות משתנה לפי שנה</div>
+      <div class="label">חלופה 2 — AIG משפחה (ללא אמתי)</div>
+      <div class="value">9,618 &#8362;/שנה (2026)</div>
+      <div class="detail">5 מבוטחים | הנחות נעולות עד 01/2036</div>
+    </div>
+    <div class="info-card new-card">
+      <div class="label">חלופה 2 — AIG אמתי (פוליסה נפרדת)</div>
+      <div class="value">1,186 &#8362;/שנה (2026)</div>
+      <div class="detail">פוליסה אישית | 10 כיסויים | סה"כ חלופה 2: <strong>10,804 &#8362;/שנה</strong></div>
     </div>
     <div class="info-card">
       <div class="label">מבוטחים</div>
@@ -428,40 +455,23 @@ footer { text-align: center; padding: 24px; color: #999; font-size: 12px; border
 </div>
 
 <!-- ======================== -->
-<!-- 5. Main cost comparison   -->
+<!-- 5. Bottom line             -->
 <!-- ======================== -->
-<div class="divider"><span>השוואת עלויות</span></div>
+<div class="divider"><span>השורה התחתונה — 2026</span></div>
 
 <div class="section">
-  <h2>5. השוואת עלות שנתית — השורה התחתונה</h2>
-  <p class="section-sub">חלופה 1 (4 פוליסות, 8,271&#8362;/שנה קבוע) מול חלופה 2 (2 פוליסות, משתנה לפי שנה)</p>
+  <h2>5. מה משתנה? מחיר וכיסוי</h2>
 
-  <div class="coverage-note">
-    <strong>הערה חשובה:</strong>
-    לחלופה 1 אין טבלת מחירים עתידית — מוצגת לפי עלות נוכחית (8,271&#8362;/שנה).<br>
-    עלות חלופה 2 מתוך טבלת הפרמיה העתידית שבפוליסות AIG. <strong>הנחות נעולות עד 01/2036</strong> — אחרי זה עלייה של ~48%.
-  </div>
-
-  <div class="table-wrap" id="main-table"></div>
+  <div id="bottom-line"></div>
 </div>
 
 <!-- ======================== -->
-<!-- 6. Full detail table      -->
-<!-- ======================== -->
-<div class="section">
-  <h2>6. טבלה מפורטת — כל הנתונים</h2>
-  <p class="section-sub">פירוט: ביטוח ישיר | הפניקס | מגדל | סה"כ חלופה 1 | AIG משפחה | AIG אמתי | סה"כ חלופה 2 | הפרש</p>
-
-  <div class="table-wrap" id="full-table"></div>
-</div>
-
-<!-- ======================== -->
-<!-- 7. PDF links              -->
+<!-- 6. PDF links              -->
 <!-- ======================== -->
 <div class="divider"><span>מסמכי מקור</span></div>
 
 <div class="section">
-  <h2>7. מסמכי מקור (PDF)</h2>
+  <h2>6. מסמכי מקור (PDF)</h2>
   <ul class="pdf-list">
     <li><a href="pdfs/aig_health_730027730526.pdf" target="_blank">AIG — בריאות משפחה 730027730526 (צבי, מיכל, נעמי, יערה, איתמר)</a></li>
     <li><a href="pdfs/aig_health_730027731426_amtai.pdf" target="_blank">AIG — בריאות אמתי 730027731426</a></li>
@@ -546,111 +556,74 @@ function diffCell(aigTotal, oldTotal) {
 }
 
 function buildTables() {
-  buildMainTable();
-  buildFullTable();
+  buildBottomLine();
 }
 
-/* ===== 5. Main cost comparison table ===== */
-function buildMainTable() {
-  var years = getYears();
-  var html = '<table>';
-  html += '<thead><tr>';
-  html += '<th>שנה</th>';
-  html += '<th style="background:#c0792a;">חלופה 1</th>';
-  html += '<th style="background:#1a6baa;">חלופה 2</th>';
-  html += '<th style="background:#444;">הפרש</th>';
-  html += '</tr></thead><tbody>';
+/* ===== 5. Bottom line — price + coverage difference ===== */
+function buildBottomLine() {
+  var y = 2026;
+  var oldH = OLD_HEALTH_ANNUAL;
+  var aigF = aigFamily[y];
+  var aigA = aigAmtai[y];
+  var aigH = aigF + aigA;
+  var diffNoA = aigF - oldH;
+  var diffAll = aigH - oldH;
 
-  var cumOld = 0, cumAig = 0;
-  for (var i = 0; i < years.length; i++) {
-    var y = years[i];
-    var oldH = OLD_HEALTH_ANNUAL;
-    var aigF = aigFamily[y] || 0;
-    var aigA = aigAmtai[y] || 0;
-    var aigH = aigF + aigA;
-    cumOld += oldH;
-    cumAig += aigH;
+  var h = '<div class="bl-grid">';
 
-    var cls = '';
-    if (y === 2026) cls = ' class="year-highlight"';
-    else if (y === 2036) cls = ' class="discount-expiry"';
+  /* === LEFT: Price difference === */
+  h += '<div class="bl-box price">';
+  h += '<h3>הפרש מחיר — 2026</h3>';
 
-    html += '<tr' + cls + '>';
-    html += '<td><strong>' + y + '</strong>';
-    if (y === 2036) html += ' <span style="color:#dc3545;font-size:11px;">תום הנחות</span>';
-    html += '</td>';
-    html += '<td class="col-old">\u20AA' + fmt(oldH) + '</td>';
-    html += '<td class="col-aig">\u20AA' + fmt(aigH) + '</td>';
-    var dc = diffCell(aigH, oldH);
-    html += '<td class="' + dc.cls + '">' + dc.str + '</td>';
-    html += '</tr>';
-  }
+  h += '<div class="bl-row"><span class="bl-label">חלופה 1 (ביטוח ישיר + הפניקס + מגדל)</span><span class="bl-val">\u20AA' + fmt(oldH) + '/שנה</span></div>';
+  h += '<div class="bl-row" style="font-size:12px;color:#888;"><span class="bl-label" style="padding-right:16px;">ביטוח ישיר \u20AA' + fmt(YASHIR_ANNUAL) + ' | הפניקס \u20AA' + fmt(PHOENIX_ANNUAL) + ' | מגדל \u20AA' + fmt(MIGDAL_ANNUAL) + '</span><span></span></div>';
 
-  html += '<tr class="summary-row"><td>\u05E1\u05D4"\u05DB (' + years.length + ' \u05E9\u05E0\u05D9\u05DD)</td>';
-  html += '<td>\u20AA' + fmt(cumOld) + '</td><td>\u20AA' + fmt(cumAig) + '</td>';
-  var td = diffCell(cumAig, cumOld);
-  html += '<td>' + td.str + '</td></tr>';
-  html += '</tbody></table>';
-  document.getElementById('main-table').innerHTML = html;
-}
+  h += '<div class="bl-row" style="margin-top:8px;"><span class="bl-label">AIG משפחה (ללא אמתי)</span><span class="bl-val">\u20AA' + fmt(aigF) + '/שנה</span></div>';
+  h += '<div class="bl-row"><span class="bl-label">AIG אמתי (פוליסה נפרדת)</span><span class="bl-val">\u20AA' + fmt(aigA) + '/שנה</span></div>';
+  h += '<div class="bl-row bl-total"><span class="bl-label">סה"כ חלופה 2</span><span class="bl-val">\u20AA' + fmt(aigH) + '/שנה</span></div>';
 
-/* ===== 6. Full detail table ===== */
-function buildFullTable() {
-  var years = getYears();
-  var html = '<table>';
-  html += '<thead>';
-  html += '<tr>';
-  html += '<th rowspan="2">שנה</th>';
-  html += '<th colspan="4" style="background:#c0792a;text-align:center;">חלופה 1</th>';
-  html += '<th colspan="3" style="background:#1a6baa;text-align:center;">חלופה 2</th>';
-  html += '<th rowspan="2" style="background:#444;">הפרש</th>';
-  html += '</tr><tr>';
-  html += '<th style="background:#d4943a;">ביטוח ישיר</th>';
-  html += '<th style="background:#d4943a;">הפניקס</th>';
-  html += '<th style="background:#d4943a;">מגדל</th>';
-  html += '<th style="background:#c0792a;">סה"כ חלופה 1</th>';
-  html += '<th style="background:#2a7fc0;">משפחה</th>';
-  html += '<th style="background:#2a7fc0;">אמתי</th>';
-  html += '<th style="background:#1a6baa;">סה"כ חלופה 2</th>';
-  html += '</tr></thead><tbody>';
+  // Diff without Amtai
+  h += '<div class="bl-diff ' + (diffNoA > 0 ? 'negative' : 'positive') + '">';
+  h += 'הפרש ללא אמתי: ' + (diffNoA > 0 ? '+' : '\u2212') + '\u20AA' + fmt(Math.abs(diffNoA)) + '/שנה';
+  h += ' (' + (diffNoA > 0 ? '+' : '\u2212') + '\u20AA' + fmt(Math.abs(Math.round(diffNoA/12))) + '/חודש)';
+  h += '</div>';
 
-  var cumOld = 0, cumAig = 0;
-  for (var i = 0; i < years.length; i++) {
-    var y = years[i];
-    var oldH = OLD_HEALTH_ANNUAL;
-    var aigF = aigFamily[y] || 0;
-    var aigA = aigAmtai[y] || 0;
-    var aigH = aigF + aigA;
-    cumOld += oldH;
-    cumAig += aigH;
+  // Diff with Amtai
+  h += '<div class="bl-diff ' + (diffAll > 0 ? 'negative' : 'positive') + '" style="margin-top:8px;">';
+  h += 'הפרש כולל אמתי: ' + (diffAll > 0 ? '+' : '\u2212') + '\u20AA' + fmt(Math.abs(diffAll)) + '/שנה';
+  h += ' (' + (diffAll > 0 ? '+' : '\u2212') + '\u20AA' + fmt(Math.abs(Math.round(diffAll/12))) + '/חודש)';
+  h += '</div>';
 
-    var cls = '';
-    if (y === 2026) cls = ' class="year-highlight"';
-    else if (y === 2036) cls = ' class="discount-expiry"';
+  h += '<div style="margin-top:10px;font-size:12px;color:#888;">בחלופה 1 לאמתי היו 2 כיסויים בלבד (הפניקס). ב-AIG יש לו 10 כיסויים בפוליסה נפרדת.</div>';
+  h += '</div>';
 
-    html += '<tr' + cls + '>';
-    html += '<td><strong>' + y + '</strong>';
-    if (y === 2036) html += ' <span style="color:#dc3545;font-size:11px;">תום הנחות</span>';
-    html += '</td>';
-    html += '<td class="col-old">\u20AA' + fmt(YASHIR_ANNUAL) + '</td>';
-    html += '<td class="col-old">\u20AA' + fmt(PHOENIX_ANNUAL) + '</td>';
-    html += '<td class="col-old">\u20AA' + fmt(MIGDAL_ANNUAL) + '</td>';
-    html += '<td class="col-old" style="font-weight:600;">\u20AA' + fmt(oldH) + '</td>';
-    html += '<td class="col-aig">\u20AA' + fmt(aigF) + '</td>';
-    html += '<td class="col-aig">\u20AA' + fmt(aigA) + '</td>';
-    html += '<td class="col-aig" style="font-weight:600;">\u20AA' + fmt(aigH) + '</td>';
-    var dc = diffCell(aigH, oldH);
-    html += '<td class="' + dc.cls + '">' + dc.str + '</td>';
-    html += '</tr>';
-  }
+  /* === RIGHT: Coverage difference === */
+  h += '<div class="bl-box coverage">';
+  h += '<h3>הפרש כיסויים — מה משתנה</h3>';
 
-  html += '<tr class="summary-row"><td>\u05E1\u05D4"\u05DB</td>';
-  html += '<td></td><td></td><td></td><td>\u20AA' + fmt(cumOld) + '</td>';
-  html += '<td></td><td></td><td>\u20AA' + fmt(cumAig) + '</td>';
-  var td = diffCell(cumAig, cumOld);
-  html += '<td>' + td.str + '</td></tr>';
-  html += '</tbody></table>';
-  document.getElementById('full-table').innerHTML = html;
+  h += '<div style="font-size:13px;font-weight:600;color:#28a745;margin-bottom:6px;">כיסויים חדשים ב-AIG (אין בחלופה 1):</div>';
+  h += '<div class="cov-change"><span class="cov-plus">+</span> סל טיפולים רפואיים (כיסוי 26)</div>';
+  h += '<div class="cov-change"><span class="cov-plus">+</span> טכנולוגיות מתקדמות ואביזרים (כיסוי 32)</div>';
+  h += '<div class="cov-change"><span class="cov-plus">+</span> ליווי רפואי וטיפולים (כיסוי 31 — אמתי)</div>';
+
+  h += '<div style="font-size:13px;font-weight:600;color:#0f3460;margin:12px 0 6px;">שדרוגים:</div>';
+  h += '<div class="cov-change"><span class="cov-plus">+</span> מיכל — מכוסה בפוליסה (לא היתה בהפניקס)</div>';
+  h += '<div class="cov-change"><span class="cov-plus">+</span> אמתי — 10 כיסויים (היו 2 בהפניקס)</div>';
+  h += '<div class="cov-change"><span class="cov-plus">+</span> איתמר — 10 כיסויים (היו 2 בהפניקס)</div>';
+  h += '<div class="cov-change"><span class="cov-plus">+</span> תקופת המתנה — מבוטלת (העברה מביטוח קיים)</div>';
+  h += '<div class="cov-change"><span class="cov-plus">+</span> הנחות נעולות עד 01/2036 (25-35%)</div>';
+
+  h += '<div style="font-size:13px;font-weight:600;color:#dc3545;margin:12px 0 6px;">חריגות ב-AIG:</div>';
+  h += '<div class="cov-change"><span class="cov-minus">\u2212</span> מיכל: טיפולים להורדת משקל, תרופות ADHD</div>';
+  h += '<div class="cov-change"><span class="cov-minus">\u2212</span> אמתי: תרופות לאסתמה/הפרעות נשימה (כיסוי 22)</div>';
+
+  h += '<div style="font-size:13px;font-weight:600;color:#888;margin:12px 0 6px;">כיסויים זהים (נשמרים):</div>';
+  h += '<div class="cov-change"><span class="cov-same">=</span> משלים ניתוחים | מחלות קשות | תרופות מחוץ לסל | ניתוחים בחו"ל | השתלות בחו"ל | ייעוץ ובדיקות</div>';
+
+  h += '</div>';
+
+  h += '</div>'; // bl-grid
+  document.getElementById('bottom-line').innerHTML = h;
 }
 </script>
 
